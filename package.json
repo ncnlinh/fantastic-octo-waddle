@@ -58,12 +58,13 @@
     "node": "6.1.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.0.0",
     "babel-watch": "^2.0.3-rc0"
   },
   "standard": {
     "parser": "babel-eslint",
     "ignore": [
-      "src/public/**"
+      "public/**"
     ]
   }
 }

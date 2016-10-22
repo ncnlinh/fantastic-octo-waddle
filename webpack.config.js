@@ -1,5 +1,5 @@
-var path = require('path');
-var webpack = require('webpack');
+var path = require('path')
+var webpack = require('webpack')
 
 var config = {
   devtool: 'cheap-module-eval-source-map',
@@ -45,7 +45,7 @@ var config = {
       }
     ]
   }
-};
+}
 
 if (process.env.NODE_ENV === 'production') {
   config.plugins.push(
@@ -55,7 +55,7 @@ if (process.env.NODE_ENV === 'production') {
         warnings: false
       }
     })
-  );
+  )
 }
 
-module.exports = config;
+module.exports = config
