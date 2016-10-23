@@ -65,6 +65,7 @@ class ChatApp extends React.Component {
 
   componentDidMount () {
     socket.on('init', this._initialize)
+    socket.on('gotData', this.gotData)
     socket.on('send:message', this._messageRecieve)
     socket.on('user:join', this._userJoined)
     socket.on('user:left', this._userLeft)
@@ -73,9 +74,14 @@ class ChatApp extends React.Component {
     socket.on('game:roundend', this._roundEnd)
     socket.on('game:start', this._gameStart)
     socket.on('game:killlocked', this._killLocked)
+    socket.emit('fetchData')
   }
 
-
+  gotData (data) {
+    var {users, name} = data
+    users = users.map(user => ({name: user}))
+    this.setState({users, user: name})
+  }
   updateSelection (i) {
     this.props.dispatch({type: 'UPDATE_SELECTION', payload: i})
   }

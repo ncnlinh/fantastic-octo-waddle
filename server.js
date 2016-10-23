@@ -272,7 +272,10 @@ io.on('connection', function (socket) {
     name: name,
     users: userNames.get().splice(1)
   })
-
+  socket.emit('fetchData', {
+    name: name,
+    users: userNames.get().splice(1)
+  })
   // notify other clients that a new user has joined
   socket.broadcast.emit('user:join', {
     name: name
