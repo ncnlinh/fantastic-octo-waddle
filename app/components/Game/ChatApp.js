@@ -208,7 +208,7 @@ class ChatApp extends React.Component {
     })
     this.setState({users, messages})
     if (this.state.roundInfo.day == 2) {
-      this.props.dispatch("GAME_END")
+      this.props.dispatch({type: "GAME_END"})
       browserHistory.push('/')
     }
     if (this.state.roundInfo.session === 1) {

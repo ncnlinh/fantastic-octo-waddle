@@ -52,12 +52,51 @@ class Home extends React.Component {
     this.transitToChat = this.transitToChat.bind(this);
   }
 
+  componentDidMount() {
+    fetch('/modo/people/register', {
+      method: 'POST',
+      contentType: 'application/json',
+      body: {
+        firstName: 'Linh',
+        lastName: 'nguyen',
+        email: 'nhatlinh95@gmail.com',
+        phone: '+15553443433'
+      }
+    })
+    //45448d71-0ba8-4023-99ce-bb4e249c98ab
+  }
+
   updateSelection (i) {
     this.props.dispatch({type: 'UPDATE_SELECTION', payload: i})
   }
 
   setDonateAmount(e) {
     this.props.dispatch({type: 'SET_DONATION', payload: e.target.value})
+    fetch('/modo/fund/create', {
+      method: 'POST',
+      contentType: 'application/json',
+      body: {
+        //
+      }
+    }).then((res) => {
+      fetch('/modo/card/create', {
+        method: 'POST',
+        contentType: 'application/json',
+        body: {
+          "accountId": "45448d71-0ba8-4023-99ce-bb4e249c98ab"
+        }
+      })}).then((res) => {
+        fetch('/modo/card/create', {
+        method: 'POST',
+        contentType: 'application/json',
+        body: {
+          "accountId": "45448d71-0ba8-4023-99ce-bb4e249c98ab",
+          "cardId": "5e35def4-6168-436a-b9f6-b295ca679b7b",
+          "fundId":"c8390d16-b599-4b82-b48e-d9114cc15529",
+          "amount": e.target.value*5
+        }
+      })
+    })
   }
 
   updateGiftUrl(e) {
