@@ -65,6 +65,7 @@ class Home extends React.Component {
   render7() {
     return (
       <div className='container-fluid'>
+      <Row>
       <Col mdOffset={2} md={3}>
         <Panel>
           <ListGroup fill>
@@ -75,7 +76,7 @@ class Home extends React.Component {
           </ListGroup>
         </Panel>
       </Col>
-
+      
       <Panel>
         <FormGroup>
           <Col md={12}>
@@ -88,13 +89,19 @@ class Home extends React.Component {
             value={this.props.amazon_card}
           />
           </Col>
-          <Col md={3}>
-          <Button bsStyle='success' style={{width: '100%'}} onClick={this.nextScreen}>
-            Restart
-          </Button>
+          <Col md={2} onClick={this.nextScreen}>
+            <Button bsStyle="primary" style={{width: '100%'}}>
+              Keep it for yourself
+            </Button>
+          </Col>
+          <Col md={1} onClick={this.nextScreen}>
+            <Button bsStyle="info" style={{width: '100%'}}>
+              Give 
+            </Button>
           </Col>
         </FormGroup>
        </Panel>
+       </Row>
       </div>
     );
   }
