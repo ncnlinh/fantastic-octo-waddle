@@ -45,7 +45,7 @@ class ChatApp extends React.Component {
 
   _initialize (data) {
     var {users, name} = data
-    users.map(user=>({name: user}))
+    users = users.map(user=>({name: user}))
     this.setState({users, user: name})
   }
 
@@ -58,7 +58,7 @@ class ChatApp extends React.Component {
   _userJoined (data) {
     var {users, messages} = this.state
     var {name} = data
-    users.push(name)
+    users.push({name: name})
     messages.push({
       user: 'APPLICATION BOT',
       text: name + ' Joined'
@@ -69,8 +69,8 @@ class ChatApp extends React.Component {
   _userLeft (data) {
     var {users, messages} = this.state
     var {name} = data
-    var index = users.indexOf(name)
-    users.splice(index, 1)
+    var index
+    users = users.filter(user => user.name !== name)
     messages.push({
       user: 'APPLICATION BOT',
       text: name + ' Left'
@@ -82,12 +82,13 @@ class ChatApp extends React.Component {
     var {users, messages} = this.state
     var {user, selection} = data
     messages.push({user: 'APPLICATION BOT', text: `${user} selected ${selection} to lynch`})
-    users.map(user => {
-      if (user.name === user) {
+    users = users.map(user => {
+      if (user.name === data.user) {
         user.selection = selection
       }
       return user
     })
+    console.log(users)
     this.setState({users, messages})
   }
 
@@ -99,9 +100,17 @@ class ChatApp extends React.Component {
   }
 
   handleKill (message) {
-    var {messages} = this.state
+    var {users, messages} = this.state
     messages.push({user: 'APPLICATION BOT', text: `You selected ${message.selection} to lynch`})
-    this.setState({messages})
+    console.log(users)
+    console.log(this.state.user)
+    users = users.map(user => {
+      if (user.name === this.state.user) {
+        user.selection = message.selection
+      }
+      return user
+    })
+    this.setState({users, messages})
     socket.emit('game:lynchlocked', message)
   }
 

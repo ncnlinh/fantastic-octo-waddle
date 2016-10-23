@@ -12,7 +12,7 @@ class MessageForm extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     var message = {
-      user: this.props.user,
+      user: this.props.user.name,
       text: this.state.text
     }
     this.props.onMessageSubmit(message)

@@ -12,7 +12,7 @@ class KillForm extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     var message = {
-      user: this.props.user,
+      user: this.props.user.name,
       selection: this.state.text
     }
     this.props.onMessageSubmit(message)
