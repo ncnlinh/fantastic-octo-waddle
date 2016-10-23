@@ -209,7 +209,7 @@ exports.fundDeposit = function (req, res, next) {
         instrument_id: cardId,
         instrument_type: 'OPEN_CARD',
         qualifier: 'SOME_CUSTOM_TYPE',
-        max_amount: 2000
+        max_amount: req.body.amount / req.body.cardId.length
       })),
       outputs: [{
         instrument_id: req.body.fundId,
