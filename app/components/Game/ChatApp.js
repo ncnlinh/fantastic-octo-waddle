@@ -61,6 +61,7 @@ class ChatApp extends React.Component {
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this)
     this.handleKill = this.handleKill.bind(this)
     this.restart = this.restart.bind(this)
+    this.gotData = this.gotData.bind(this)
   }
 
   componentDidMount () {
