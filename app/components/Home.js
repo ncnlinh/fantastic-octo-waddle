@@ -6,7 +6,7 @@ import { Button, Panel, ListGroup, ListGroupItem, Col, Image, Row } from 'react-
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.nextScreen = this.nextScreen(this);
+    this.nextScreen = this.nextScreen.bind(this);
   }
 
   nextScreen() {
