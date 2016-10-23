@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const gameStart = (props) => {
-    <div>k</div>
+  <div>k</div>
 }
 
-export default gameStart;
+export default gameStart

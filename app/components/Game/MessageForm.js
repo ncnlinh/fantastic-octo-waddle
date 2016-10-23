@@ -5,6 +5,8 @@ class MessageForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {text: ''}
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.changeHandler = this.changeHandler.bind(this)
   }
 
   handleSubmit (e) {
