@@ -404,7 +404,7 @@ class Home extends React.Component {
             <Panel>
               <FormGroup>
                 <Col md={12}>
-                <ControlLabel>Put your Amazen item link here</ControlLabel>
+                <ControlLabel>Put your Amazon item link here</ControlLabel>
                 </Col>
                 <Col md={9}>
                   <FormControl
