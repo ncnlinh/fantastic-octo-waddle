@@ -1,8 +1,9 @@
 const initialState = {
-  gameStart: 0,
+  gameStart: 4,
   totalPot: 25,
   playerPot: 5,
   giftUrlLink: '',
+  selection: -1,
 }
 
 export default function reducer (state = initialState, action) {
@@ -11,6 +12,11 @@ export default function reducer (state = initialState, action) {
   }
 
   switch (action.type) {
+    case 'UPDATE_SELECTION':
+      return {
+        ...state, 
+        selection: action.payload
+      }
     case 'UPDATE_GIFT_URL':
       return {
         ...state,
@@ -19,7 +25,8 @@ export default function reducer (state = initialState, action) {
     case 'GAME_START':
       return {
         ...state,
-        gameStart: action.payload ? ++state.gameStart : --state.gameStart
+        gameStart: (action.payload ? ++state.gameStart : --state.gameStart) % 5,
+        selection: -1
       }
     default:
       return state
