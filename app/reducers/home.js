@@ -36,6 +36,11 @@ export default function reducer (state = initialState, action) {
         gameStart: (action.payload ? ++state.gameStart : --state.gameStart) % 7,
         selection: -1
       }
+    case 'GAME_END':
+      return {
+        ...state,
+        gameStart: 6,
+      }
     default:
       return state
   }

@@ -72,6 +72,10 @@ class Home extends React.Component {
     this.props.dispatch({type: 'GAME_START', payload: false})
   }
 
+  transitToEnd() {
+    this.props.dispatch({type: 'GAME_END'});
+  }
+
   transitToChat() {
     browserHistory.push('/game');
   }
