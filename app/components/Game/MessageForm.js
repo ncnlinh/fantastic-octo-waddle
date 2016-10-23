@@ -12,7 +12,7 @@ class MessageForm extends React.Component {
   handleSubmit (e) {
     e.preventDefault()
     var message = {
-      user: this.props.user.name,
+      user: this.props.user.name || this.props.user,
       text: this.state.text
     }
     this.props.onMessageSubmit(message)
@@ -28,7 +28,7 @@ class MessageForm extends React.Component {
       <div className='message_form'>
         <h3>Write New Message</h3>
         <form onSubmit={this.handleSubmit}>
-          <input
+          <input disabled={this.props.died}
             onChange={this.changeHandler}
             value={this.state.text}
           />

@@ -11,6 +11,7 @@ class UsersList extends React.Component {
               return (
                 <li key={i}>
                   {user.name}{user.selection ? <span> picked <strong>{user.selection}</strong></span> : ''}
+                  {user.status ? <span><strong> {user.status}</strong></span> : ''}
                 </li>
                 )
             })

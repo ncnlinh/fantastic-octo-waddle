@@ -27,8 +27,7 @@ class Header extends React.Component {
         </li>
       </ul>
     ) : (
-      <ul className='nav navbar-nav navbar-right'>
-      </ul>
+      <ul className='nav navbar-nav navbar-right' />
     )
     return (
       <nav className='navbar navbar-default navbar-static-top'>

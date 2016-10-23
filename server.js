@@ -17,7 +17,7 @@ var moment = require('moment')
 var request = require('request')
 var sass = require('node-sass-middleware')
 var webpack = require('webpack')
-var config = require('./webpack.config')  
+var config = require('./webpack.config')
 // var server = http.createServer(app)
 // Load environment variables from .env file
 dotenv.load()
@@ -176,7 +176,7 @@ var userNames = (function () {
 
   // find the lowest unused "guest" name and claim it
   var getGuestName = function () {
-    var guestNames = ["Dummy", "Monty", "Claire", "Hardy", "Carlos", "Tom"]
+    var guestNames = ['Dummy', 'Monty', 'Claire', 'Hardy', 'Carlos', 'Tom']
     var name
     var nextUserId = 0
 
@@ -212,10 +212,52 @@ var userNames = (function () {
   }
 }())
 
+var gameLogic = (function () {
+  var locked = []
+  var selected = []
+  var session = 1 // 0 : night, 1 day
+  var day = 0
+  var pushSelection = function (data) {
+    var user = data.user
+    var selection = data.selection
+    if (locked.indexOf(user) === -1) {
+      locked.push(user)
+      selected.push(selection)
+    } else {
+      selected[locked.indexOf(user)] = selection
+    }
+    console.log(locked)
+    console.log(selected)
+  }
+  var getSelected = function () {
+    return selected
+  }
+  var nextRound = function () {
+    session = 1 - session
+    if (session === 0) {
+      day++
+    }
+    return {
+      roundName: (session ? 'Night' : 'Day') + ' ' + day,
+      session: session,
+      day: day
+    }
+  }
+  return {
+    pushSelection: pushSelection,
+    getSelected: getSelected,
+    nextRound: nextRound
+  }
+}())
+
 io.on('connection', function (socket) {
   console.log('a user connected')
   var name = userNames.getGuestName()
-
+  console.log(userNames.get())
+  if (userNames.get().length === 6) {
+    var roundInfo = gameLogic.nextRound()
+    io.sockets.emit('game:start', roundInfo)
+  }
   // send the new user their name and a list of users
   socket.emit('init', {
     name: name,
@@ -260,6 +302,41 @@ io.on('connection', function (socket) {
       user: name,
       selection: data.selection
     })
+    gameLogic.pushSelection({
+      user: name,
+      selection: data.selection
+    })
+    var selected = gameLogic.getSelected()
+    var names = userNames.get()
+    function mode (array) {
+      if (array.length === 0) {
+        return null
+      }
+      var modeMap = {}
+      var maxEl = array[0]
+      var maxCount = 1
+      for (var i = 0; i < array.length; i++) {
+        var el = array[i]
+        if (modeMap[el] == null) {
+          modeMap[el] = 1
+        } else {
+          modeMap[el]++
+        }
+        if (modeMap[el] > maxCount) {
+          maxEl = el
+          maxCount = modeMap[el]
+        }
+      }
+      return maxEl
+    }
+    if (selected.length === names.length - 1) {
+      var result = mode(selected)
+      io.sockets.emit('game:roundend', {
+        selection: result
+      })
+      var roundInfo = gameLogic.nextRound()
+      io.sockets.emit('game:start', roundInfo)
+    }
   })
 
   // clean up when a user leaves, and broadcast it to other users
