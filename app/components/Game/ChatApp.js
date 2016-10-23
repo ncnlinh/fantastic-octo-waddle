@@ -21,7 +21,7 @@ import {
   FormControl,
   Jumbotron
 } from 'react-bootstrap'
-
+import { browserHistory } from 'react-router'
 const player1Name = 'Claire'
 const player1Image = '/images/chinese-woman-player.png'
 const player2Name = 'Hardy'
@@ -207,6 +207,10 @@ class ChatApp extends React.Component {
       return user
     })
     this.setState({users, messages})
+    if (this.state.roundInfo.day == 2) {
+      this.props.dispatch("GAME_END")
+      browserHistory.push('/')
+    }
     if (this.state.roundInfo.session === 1) {
       socket.emit('game:lynchlocked', message)  
     } else {
