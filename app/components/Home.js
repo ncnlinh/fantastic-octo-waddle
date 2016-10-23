@@ -47,10 +47,14 @@ class Home extends React.Component {
     this.prevScreen = this.prevScreen.bind(this);
     this.updateGiftUrl = this.updateGiftUrl.bind(this);
     this.updateSelection = this.updateSelection.bind(this);
+    this.setDonateAmount = this.setDonateAmount.bind(this);
   }
 
   updateSelection(i) {
     this.props.dispatch({type: 'UPDATE_SELECTION', payload: i})
+  }
+  setDonateAmount(e) {
+    this.props.dispatch({type: 'SET_DONATION', payload: e.target.value})
   }
   updateGiftUrl(e) {
     this.props.dispatch({type: 'UPDATE_GIFT_URL', payload: e.target.value})
@@ -394,7 +398,7 @@ class Home extends React.Component {
              <Panel>
               <FormGroup>
                 <Col md={12}>
-                <ControlLabel>Put your Amazon item link here</ControlLabel>
+                <ControlLabel>Put your Amazen item link here</ControlLabel>
                 </Col>
                 <Col md={9}>
                 <FormControl
@@ -472,7 +476,13 @@ class Home extends React.Component {
                 </ListGroupItem>
                 <ListGroupItem className='face_name'>You</ListGroupItem>
                 <ListGroupItem className='face_name'>
-                  <Button bsStyle='success' style={{width: '80%'}} onClick={this.nextScreen} >
+                  <FormControl
+                    type="text"
+                    value={this.props.donateAmount}
+                    placeholder="Donate amount"
+                    onChange={this.setDonateAmount}
+                  />
+                  <Button bsStyle='success' style={{width: '65%'}} onClick={this.nextScreen} >
                 Join
                   </Button>
                 </ListGroupItem>
