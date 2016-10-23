@@ -62,10 +62,47 @@ class Home extends React.Component {
     this.props.dispatch({type: 'GAME_START', payload: false})
   }
 
+  render7() {
+    return (
+      <div className='container-fluid'>
+      <Col mdOffset={2} md={3}>
+        <Panel>
+          <ListGroup fill>
+            <ListGroupItem>
+              <Image responsive src={player3Image} />
+            </ListGroupItem>
+            <ListGroupItem className='face_name'>Basket Ball</ListGroupItem>
+          </ListGroup>
+        </Panel>
+      </Col>
+
+      <Panel>
+        <FormGroup>
+          <Col md={12}>
+          <ControlLabel>Your Amazon gift card to redeem the above item</ControlLabel>
+          </Col>
+          <Col md={9}>
+          <FormControl
+            disabled
+            type="text"
+            value={this.props.amazon_card}
+          />
+          </Col>
+          <Col md={3}>
+          <Button bsStyle='success' style={{width: '100%'}} onClick={this.nextScreen}>
+            Restart
+          </Button>
+          </Col>
+        </FormGroup>
+       </Panel>
+      </div>
+    );
+  }
+
   render6() {
     return (
       <div>
-        <div className='container-fluid'>
+        <div className='container-fluid' onClick={this.nextScreen} >
           <Jumbotron className='face_name'>
             <h1>Mafia Won</h1>
           </Jumbotron>
@@ -438,7 +475,7 @@ class Home extends React.Component {
     ); 
   }
   render () {
-    const s = [this.render1, this.render2, this.render3, this.render4, this.render5, this.render6];
+    const s = [this.render1, this.render2, this.render3, this.render4, this.render5, this.render6, this.render7];
 
     return s[this.props.gameStart].call(this);
   }
@@ -452,6 +489,7 @@ const mapStateToProps = (state) => {
     playerPot: state.home.playerPot,
     giftUrlLink: state.home.giftUrlLink,
     selection: state.home.selection,
+    amazon_card: state.home.amazon_card,
   }
 }
 

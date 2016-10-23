@@ -4,6 +4,7 @@ const initialState = {
   playerPot: 5,
   giftUrlLink: '',
   selection: -1,
+  amazon_card: "1234-1342-1432-1324",
 }
 
 export default function reducer (state = initialState, action) {
@@ -25,7 +26,7 @@ export default function reducer (state = initialState, action) {
     case 'GAME_START':
       return {
         ...state,
-        gameStart: (action.payload ? ++state.gameStart : --state.gameStart) % 5,
+        gameStart: (action.payload ? ++state.gameStart : --state.gameStart) % 7,
         selection: -1
       }
     default:
