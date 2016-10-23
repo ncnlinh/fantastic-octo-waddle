@@ -27,6 +27,8 @@ const player4Name = 'Carlos';
 const player4Image = '/images/rapper-guy-player.png';
 const player5Name = 'You';
 const player5Image = '/images/redhead-guy-player.png';
+const basketballImage = '/images/basketball.jpg';
+const milkBottleImage = '/images/milk-bottle.jpg';
 
 const ThreeHalfShitHackIdontWannaTalkAbout = (props) => (
   <Col md={3}>
@@ -70,7 +72,7 @@ class Home extends React.Component {
         <Panel>
           <ListGroup fill>
             <ListGroupItem>
-              <Image responsive src={player3Image} />
+              <Image responsive src={basketballImage} />
             </ListGroupItem>
             <ListGroupItem className='face_name'>Basket Ball</ListGroupItem>
           </ListGroup>
@@ -339,7 +341,7 @@ class Home extends React.Component {
                 <Panel>
                   <ListGroup fill>
                     <ListGroupItem>
-                      <Image responsive src={'/images/chinese-woman-player.png'} />
+                      <Image responsive src={basketballImage} />
                     </ListGroupItem>
                     <ListGroupItem className='face_name'>Basket Ball</ListGroupItem>
                   </ListGroup>
@@ -349,7 +351,7 @@ class Home extends React.Component {
                 <Panel>
                   <ListGroup fill>
                     <ListGroupItem>
-                      <Image responsive src={'/images/chinese-woman-player.png'} />
+                      <Image responsive src={milkBottleImage} />
                     </ListGroupItem>
                     <ListGroupItem className='face_name'>Milk Bottle</ListGroupItem>
                   </ListGroup>
