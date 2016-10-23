@@ -25,6 +25,8 @@ const player3Name = 'Monty';
 const player3Image = '/images/indian-girl-player.png';
 const player4Name = 'Carlos';
 const player4Image = '/images/rapper-guy-player.png';
+const player5Name = 'You';
+const player5Image = '/images/redhead-guy-player.png';
 
 const ThreeHalfShitHackIdontWannaTalkAbout = (props) => (
   <Col md={3}>
@@ -58,6 +60,89 @@ class Home extends React.Component {
 
   prevScreen() {
     this.props.dispatch({type: 'GAME_START', payload: false})
+  }
+
+  render6() {
+    return (
+      <div>
+        <div className='container-fluid'>
+          <Jumbotron className='face_name'>
+            <h1>Mafia Won</h1>
+          </Jumbotron>
+          <Panel>
+            <ListGroup fill className='face_name'>
+              <h1>
+                Mafias
+              </h1>
+
+              <Row>
+              <Col mdOffset={2} md={3}>
+                <Panel>
+                  <ListGroup fill>
+                    <ListGroupItem>
+                      <Image responsive src={player3Image} />
+                    </ListGroupItem>
+                    <ListGroupItem className='face_name'>{player3Name}</ListGroupItem>
+                  </ListGroup>
+                </Panel>
+              </Col>
+              <Col mdOffset={2} md={3}>
+                <Panel>
+                  <ListGroup fill>
+                    <ListGroupItem>
+                      <Image responsive src={player5Image} />
+                    </ListGroupItem>
+                    <ListGroupItem className='face_name'>{player5Name}</ListGroupItem>
+                  </ListGroup>
+                </Panel>
+              </Col>
+              </Row>
+            </ListGroup>
+          </Panel>
+
+          <Panel>
+            <ListGroup fill className='face_name'>
+              <h1>
+                Villagers
+              </h1>
+
+              <Row>
+              <Col mdOffset={2} md={2}>
+                <Panel>
+                  <ListGroup fill>
+                    <ListGroupItem>
+                      <Image responsive src={player1Image} />
+                    </ListGroupItem>
+                    <ListGroupItem className='face_name'>{player1Name}</ListGroupItem>
+                  </ListGroup>
+                </Panel>
+              </Col>
+               <Col mdOffset={1} md={2}>
+                <Panel>
+                  <ListGroup fill>
+                    <ListGroupItem>
+                      <Image responsive src={player2Image} />
+                    </ListGroupItem>
+                    <ListGroupItem className='face_name'>{player2Name}</ListGroupItem>
+                  </ListGroup>
+                </Panel>
+              </Col>
+              <Col mdOffset={1} md={2}>
+                <Panel>
+                  <ListGroup fill>
+                    <ListGroupItem>
+                      <Image responsive src={player4Image} />
+                    </ListGroupItem>
+                    <ListGroupItem className='face_name'>{player4Name}</ListGroupItem>
+                  </ListGroup>
+                </Panel>
+              </Col>
+              </Row>
+            </ListGroup>
+          </Panel>
+        </div>
+      </div>
+    );
   }
 
   render5() {
@@ -353,8 +438,8 @@ class Home extends React.Component {
     ); 
   }
   render () {
-    const s = [this.render1, this.render2, this.render3, this.render4, this.render5];
-    console.log(this.props.gameStart);
+    const s = [this.render1, this.render2, this.render3, this.render4, this.render5, this.render6];
+
     return s[this.props.gameStart].call(this);
   }
 }

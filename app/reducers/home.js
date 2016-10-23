@@ -1,5 +1,5 @@
 const initialState = {
-  gameStart: 4,
+  gameStart: 5,
   totalPot: 25,
   playerPot: 5,
   giftUrlLink: '',
