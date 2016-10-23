@@ -1,5 +1,8 @@
 const initialState = {
-  gameStart: false
+  gameStart: 0,
+  totalPot: 25,
+  playerPot: 5,
+  giftUrlLink: '',
 }
 
 export default function reducer (state = initialState, action) {
@@ -8,10 +11,15 @@ export default function reducer (state = initialState, action) {
   }
 
   switch (action.type) {
+    case 'UPDATE_GIFT_URL':
+      return {
+        ...state,
+        giftUrlLink: action.payload
+      }
     case 'GAME_START':
       return {
         ...state,
-        gameStart: true
+        gameStart: action.payload ? ++state.gameStart : --state.gameStart
       }
     default:
       return state
