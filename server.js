@@ -237,16 +237,25 @@ var gameLogic = (function () {
     if (session === 0) {
       day++
     }
+    locked = []
+    selected = []
     return {
-      roundName: (session ? 'Night' : 'Day') + ' ' + day,
+      roundName: (session ? 'Day' : 'Night') + ' ' + day,
       session: session,
       day: day
     }
   }
+  var restart = function () {
+    session = 1
+    day = 0
+    locked = []
+    selected = []
+  }
   return {
     pushSelection: pushSelection,
     getSelected: getSelected,
-    nextRound: nextRound
+    nextRound: nextRound,
+    restart: restart
   }
 }())
 
@@ -295,7 +304,21 @@ io.on('connection', function (socket) {
       fn(false)
     }
   })
-
+  socket.on('game:killlocked', function (data) {
+    socket.broadcast.emit('game:killlocked', {
+      user: name,
+      selection: data.selection
+    })
+    gameLogic.pushSelection({
+      user: name,
+      selection: data.selection
+    })
+    io.sockets.emit('game:roundend', {
+      selection: data.name
+    })
+    var roundInfo = gameLogic.nextRound()
+    io.sockets.emit('game:start', roundInfo)
+  })
   // lock a selection
   socket.on('game:lynchlocked', function (data) {
     socket.broadcast.emit('game:lynchlocked', {
@@ -338,6 +361,13 @@ io.on('connection', function (socket) {
       io.sockets.emit('game:start', roundInfo)
     }
   })
+
+  socket.on('game:restart', function (data) {
+    io.sockets.emit('game:restart', {
+    })
+    gameLogic.restart()
+  })
+
 
   // clean up when a user leaves, and broadcast it to other users
   socket.on('disconnect', function () {

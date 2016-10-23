@@ -26,7 +26,7 @@ class KillForm extends React.Component {
   render () {
     return (
       <div className='kill_form'>
-        <h3>Choose who to lynch</h3>
+        <h3>Choose who to kill</h3>
         <form onSubmit={this.handleSubmit}>
           <input disabled={this.props.died}
             onChange={this.changeHandler}

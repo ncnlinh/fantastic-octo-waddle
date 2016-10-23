@@ -55,10 +55,12 @@ class ChatApp extends React.Component {
     this._userJoined = this._userJoined.bind(this)
     this._userLeft = this._userLeft.bind(this)
     this._lynchLocked = this._lynchLocked.bind(this)
+    this._killLocked = this._killLocked.bind(this)
     this._roundEnd = this._roundEnd.bind(this)
     this._gameStart = this._gameStart.bind(this)
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this)
     this.handleKill = this.handleKill.bind(this)
+    this.restart = this.restart.bind(this)
   }
 
   componentDidMount () {
@@ -70,6 +72,7 @@ class ChatApp extends React.Component {
     socket.on('game:lynchlocked', this._lynchLocked)
     socket.on('game:roundend', this._roundEnd)
     socket.on('game:start', this._gameStart)
+    socket.on('game:killlocked', this._killLocked)
   }
 
 
@@ -136,6 +139,13 @@ class ChatApp extends React.Component {
     this.setState({users, messages})
   }
 
+  _killLocked (data) {
+    var {users, messages} = this.state
+    var {selection} = data
+    messages.push({user: 'APPLICATION BOT', text: `${selection} was assasinated by the mafias`});
+    this.setState({users, messages})
+  }
+
   lynch () {
     this.handleKill({
       selection: playerName[this.props.selection - 1]
@@ -154,7 +164,9 @@ class ChatApp extends React.Component {
   _roundEnd (data) {
     console.log("GAME ENDED!")
     var {users, messages} = this.state
-    messages.push({user: 'APPLICATION BOT', text: `${data.selection} were lynched`})
+    if (data.selection) {
+      messages.push({user: 'APPLICATION BOT', text: `${data.selection} were killed`})
+    }
     users = users.map(user => {
       if (user.name === data.selection) {
         user.selection = null
@@ -178,7 +190,7 @@ class ChatApp extends React.Component {
 
   handleKill (message) {
     var {users, messages} = this.state
-    messages.push({user: 'APPLICATION BOT', text: `You selected ${message.selection} to lynch`})
+    messages.push({user: 'APPLICATION BOT', text: `You selected ${message.selection} to kill`})
     console.log(users)
     console.log(this.state.user)
     users = users.map(user => {
@@ -188,15 +200,26 @@ class ChatApp extends React.Component {
       return user
     })
     this.setState({users, messages})
-    socket.emit('game:lynchlocked', message)
+    if (this.state.roundInfo.session === 1) {
+      socket.emit('game:lynchlocked', message)  
+    } else {
+      socket.emit('game:killlocked', message)
+    }
+  }
+
+  restart () {
+    socket.emit('game:restart')
   }
   render () {
-    var rest = <div><Col md={2} />
+    var rest = <div>
+    <Panel><Col md={2} />
         <Col md={6}>
           <Row>
             <MessageList
               messages={this.state.messages}
               title={this.state.roundInfo.roundName}
+              user={this.state.user}
+              character={(this.state.user === "Carlos") ? "mafia" : "villager"}
                       />
             <MessageForm
               onMessageSubmit={this.handleMessageSubmit}
@@ -217,14 +240,72 @@ class ChatApp extends React.Component {
                       />
           </Row>
         </Col>
-        <Col md={2} /></div>
+        <Col md={2} /></Panel></div>
+        var rest2 = <div><Panel><Col offset={10} md={2} ><Button bsStyle='success' style={{width: '100%'}} onClick={this.restart}>
+            Restart
+              </Button></Col></Panel></div>
     return (
       <div>
+       {this.state.roundInfo.roundName === "Night 2" ? <div>
+        <div className='container-fluid'>
+          <Jumbotron className='face_name'>
+            <h1>Night 2</h1>
+          </Jumbotron>
+          {rest}
+          <Panel>
+            <ListGroup fill className='face_name'>
+              <h1>
+                Villagers
+                <br />
+                <small>
+                Vote to kill one
+                </small>
+              </h1>
+
+              <Row>
+                <Col mdOffset={1} md={2}>
+                  <Panel onClick={this.updateSelection.bind(this, 1)} className={this.props.selection == 1 ? 'glow' : ''}>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player1Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player1Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </Col>
+                <Col mdOffset={2} md={2}>
+                  <Panel onClick={this.updateSelection.bind(this, 3)} className={this.props.selection == 3 ? 'glow' : ''}>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player4Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player4Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </Col>
+                <Col mdOffset={2} md={2}>
+                  <Panel onClick={this.updateSelection.bind(this, 5)} className={this.props.selection == 5 ? 'glow' : ''}>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player5Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player5Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </Col>
+              </Row>
+            </ListGroup>
+          </Panel>
+          {rest2}
+        </div>
+      </div> : ''}
       {this.state.roundInfo.roundName === "Night 1" ? <div>
         <div className='container-fluid'>
           <Jumbotron className='face_name'>
             <h1>Night 1</h1>
           </Jumbotron>
+
+          {rest}
           <Panel>
             <ListGroup fill className='face_name'>
               <h1>
@@ -266,16 +347,20 @@ class ChatApp extends React.Component {
                     </ListGroup>
                   </Panel>
                 </Col>
+                <Col mdOffset={2} md={2}>
+                  <Panel onClick={this.updateSelection.bind(this, 5)} className={this.props.selection == 5 ? 'glow' : ''}>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player5Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player5Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </Col>
               </Row>
             </ListGroup>
-
-            <Col mdOffset={4} md={4} className='face_name'>
-              <Button bsStyle='success' style={{width: '80%'}} onClick={this.lynch} >
-              Vote to assasinate
-              </Button>
-            </Col>
           </Panel>
-          {rest}
+          {rest2}
         </div>
       </div> : ''}
       {this.state.roundInfo.roundName === "Day 1" ? <div>
@@ -283,6 +368,8 @@ class ChatApp extends React.Component {
           <Jumbotron className='face_name'>
             <h1>Day 1</h1>
           </Jumbotron>
+
+          {rest}
           <Panel>
             <ListGroup fill className='face_name'>
               <h1>
@@ -306,16 +393,6 @@ class ChatApp extends React.Component {
                   </Panel>
                 </ThreeHalfShitHackIdontWannaTalkAbout>
                 <ThreeHalfShitHackIdontWannaTalkAbout>
-                  <Panel onClick={this.updateSelection.bind(this, 2)} className={this.props.selection == 2 ? 'glow' : ''}>
-                    <ListGroup fill>
-                      <ListGroupItem>
-                        <Image responsive src={player2Image} />
-                      </ListGroupItem>
-                      <ListGroupItem className='face_name'>{player2Name}</ListGroupItem>
-                    </ListGroup>
-                  </Panel>
-                </ThreeHalfShitHackIdontWannaTalkAbout>
-                <ThreeHalfShitHackIdontWannaTalkAbout>
                   <Panel onClick={this.updateSelection.bind(this, 3)} className={this.props.selection == 3 ? 'glow' : ''}>
                     <ListGroup fill>
                       <ListGroupItem>
@@ -335,23 +412,28 @@ class ChatApp extends React.Component {
                     </ListGroup>
                   </Panel>
                 </ThreeHalfShitHackIdontWannaTalkAbout>
+                <ThreeHalfShitHackIdontWannaTalkAbout>
+                  <Panel onClick={this.updateSelection.bind(this, 5)} className={this.props.selection == 5 ? 'glow' : ''}>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player5Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player5Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </ThreeHalfShitHackIdontWannaTalkAbout>
               </Row>
             </ListGroup>
-
-            <Col mdOffset={4} md={4} className='face_name'>
-              <Button bsStyle='success' style={{width: '80%'}} onClick={this.nextScreen} >
-              Vote to lynch
-              </Button>
-            </Col>
           </Panel>
-          {rest}
+          {rest2}
         </div>
       </div> : ''}
-      {this.state.roundInfo.roundName !== "Day 1" && this.state.roundInfo.roundName !== "Night 1" ? <div>
+      {this.state.roundInfo.roundName !== "Day 1" && this.state.roundInfo.roundName !== "Night 1" && this.state.roundInfo.roundName !== "Night 2" ? <div>
         <div className='container-fluid'>
           <Panel>
           {rest}
           </Panel>
+          {rest2}
         </div>
       </div> : ''}
       </div>
