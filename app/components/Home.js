@@ -17,16 +17,19 @@ import {
 
 import { browserHistory } from 'react-router'
 
-const player1Name = 'Claire'
-const player1Image = '/images/chinese-woman-player.png'
-const player2Name = 'Hardy'
-const player2Image = '/images/geek-guy-player.png'
-const player3Name = 'Monty'
-const player3Image = '/images/indian-girl-player.png'
-const player4Name = 'Carlos'
-const player4Image = '/images/rapper-guy-player.png'
-const player5Name = 'You'
-const player5Image = '/images/redhead-guy-player.png'
+
+const player1Name = 'Claire';
+const player1Image = '/images/chinese-woman-player.png';
+const player2Name = 'Hardy';
+const player2Image = '/images/geek-guy-player.png';
+const player3Name = 'Monty';
+const player3Image = '/images/indian-girl-player.png';
+const player4Name = 'Carlos';
+const player4Image = '/images/rapper-guy-player.png';
+const player5Name = 'You';
+const player5Image = '/images/redhead-guy-player.png';
+const basketballImage = '/images/basketball.jpg';
+const milkBottleImage = '/images/milk-bottle.jpg';
 
 const ThreeHalfShitHackIdontWannaTalkAbout = (props) => (
   <Col md={3}>
@@ -39,18 +42,25 @@ const ThreeHalfShitHackIdontWannaTalkAbout = (props) => (
 )
 
 class Home extends React.Component {
-  constructor (props) {
-    super(props)
-    this.nextScreen = this.nextScreen.bind(this)
-    this.prevScreen = this.prevScreen.bind(this)
-    this.updateGiftUrl = this.updateGiftUrl.bind(this)
-    this.updateSelection = this.updateSelection.bind(this)
+  constructor(props) {
+    super(props);
+    this.nextScreen = this.nextScreen.bind(this);
+    this.prevScreen = this.prevScreen.bind(this);
+    this.updateGiftUrl = this.updateGiftUrl.bind(this);
+    this.updateSelection = this.updateSelection.bind(this);
+    this.setDonateAmount = this.setDonateAmount.bind(this);
+    this.transitToChat = this.transitToChat.bind(this);
   }
 
   updateSelection (i) {
     this.props.dispatch({type: 'UPDATE_SELECTION', payload: i})
   }
-  updateGiftUrl (e) {
+
+  setDonateAmount(e) {
+    this.props.dispatch({type: 'SET_DONATION', payload: e.target.value})
+  }
+
+  updateGiftUrl(e) {
     this.props.dispatch({type: 'UPDATE_GIFT_URL', payload: e.target.value})
   }
 
@@ -62,39 +72,54 @@ class Home extends React.Component {
     this.props.dispatch({type: 'GAME_START', payload: false})
   }
 
+  transitToEnd() {
+    this.props.dispatch({type: 'GAME_END'});
+  }
+
+  transitToChat() {
+    browserHistory.push('/game');
+  }
+
   render7 () {
     return (
       <div className='container-fluid'>
-        <Col mdOffset={2} md={3}>
-          <Panel>
-            <ListGroup fill>
-              <ListGroupItem>
-                <Image responsive src={player3Image} />
-              </ListGroupItem>
-              <ListGroupItem className='face_name'>Basket Ball</ListGroupItem>
-            </ListGroup>
-          </Panel>
-        </Col>
-
+      <Row>
+      <Col mdOffset={2} md={3}>
         <Panel>
-          <FormGroup>
-            <Col md={12}>
-              <ControlLabel>Your Amazon gift card to redeem the above item</ControlLabel>
-            </Col>
-            <Col md={9}>
-              <FormControl
-                disabled
-                type='text'
-                value={this.props.amazon_card}
-          />
-            </Col>
-            <Col md={3}>
-              <Button bsStyle='success' style={{width: '100%'}} onClick={this.nextScreen}>
-            Restart
-              </Button>
-            </Col>
-          </FormGroup>
+          <ListGroup fill>
+            <ListGroupItem>
+              <Image responsive src={basketballImage} />
+            </ListGroupItem>
+            <ListGroupItem className='face_name'>Basket Ball</ListGroupItem>
+          </ListGroup>
         </Panel>
+      </Col>
+      
+      <Panel>
+        <FormGroup>
+          <Col md={12}>
+          <ControlLabel>Your Amazon gift card to redeem the above item</ControlLabel>
+          </Col>
+          <Col md={9}>
+          <FormControl
+            disabled
+            type="text"
+            value={this.props.amazon_card}
+          />
+          </Col>
+          <Col md={2} onClick={this.nextScreen}>
+            <Button bsStyle="primary" style={{width: '100%'}}>
+              Keep it for yourself
+            </Button>
+          </Col>
+          <Col md={1} onClick={this.nextScreen}>
+            <Button bsStyle="info" style={{width: '100%'}}>
+              Give 
+            </Button>
+          </Col>
+        </FormGroup>
+       </Panel>
+       </Row>
       </div>
     )
   }
@@ -320,7 +345,7 @@ class Home extends React.Component {
   render3 () { // press anywhere to go next screens
     return (
       <div>
-        <div className='container-fluid' onClick={this.nextScreen}>
+        <div className='container-fluid' onClick={this.transitToChat}>
           <Jumbotron className='face_name'>
             <h1>Game Start</h1>
           </Jumbotron>
@@ -328,26 +353,26 @@ class Home extends React.Component {
             <ListGroup fill className='face_name'>
               <h1 style={{paddingBottom: '30px'}} >Mafia Purchases</h1>
               <Row>
-                <Col mdOffset={2} md={2}>
-                  <Panel>
-                    <ListGroup fill>
-                      <ListGroupItem>
-                        <Image responsive src={'/images/chinese-woman-player.png'} />
-                      </ListGroupItem>
-                      <ListGroupItem className='face_name'>Basket Ball</ListGroupItem>
-                    </ListGroup>
-                  </Panel>
-                </Col>
-                <Col mdOffset={4} md={2}>
-                  <Panel>
-                    <ListGroup fill>
-                      <ListGroupItem>
-                        <Image responsive src={'/images/chinese-woman-player.png'} />
-                      </ListGroupItem>
-                      <ListGroupItem className='face_name'>Milk Bottle</ListGroupItem>
-                    </ListGroup>
-                  </Panel>
-                </Col>
+              <Col mdOffset={2} md={2}>
+                <Panel>
+                  <ListGroup fill>
+                    <ListGroupItem>
+                      <Image responsive src={basketballImage} />
+                    </ListGroupItem>
+                    <ListGroupItem className='face_name'>Basket Ball</ListGroupItem>
+                  </ListGroup>
+                </Panel>
+              </Col>
+              <Col mdOffset={4} md={2}>
+                <Panel>
+                  <ListGroup fill>
+                    <ListGroupItem>
+                      <Image responsive src={milkBottleImage} />
+                    </ListGroupItem>
+                    <ListGroupItem className='face_name'>Milk Bottle</ListGroupItem>
+                  </ListGroup>
+                </Panel>
+              </Col>
               </Row>
             </ListGroup>
           </Panel>
@@ -383,7 +408,7 @@ class Home extends React.Component {
             <Panel>
               <FormGroup>
                 <Col md={12}>
-                  <ControlLabel>Put your Amazon item link here</ControlLabel>
+                <ControlLabel>Put your Amazon item link here</ControlLabel>
                 </Col>
                 <Col md={9}>
                   <FormControl
@@ -461,7 +486,13 @@ class Home extends React.Component {
                 </ListGroupItem>
                 <ListGroupItem className='face_name'>You</ListGroupItem>
                 <ListGroupItem className='face_name'>
-                  <Button bsStyle='success' style={{width: '80%'}} onClick={this.nextScreen} >
+                  <FormControl
+                    type="text"
+                    value={this.props.donateAmount}
+                    placeholder="Donate amount"
+                    onChange={this.setDonateAmount}
+                  />
+                  <Button bsStyle='success' style={{width: '65%'}} onClick={this.nextScreen} >
                 Join
                   </Button>
                 </ListGroupItem>

@@ -1,7 +1,7 @@
 const initialState = {
-  gameStart: 5,
+  gameStart: 0,
   totalPot: 25,
-  playerPot: 5,
+  playerPot: 0,
   giftUrlLink: '',
   selection: -1,
   amazon_card: '1234-1342-1432-1324'
@@ -13,6 +13,13 @@ export default function reducer (state = initialState, action) {
   }
 
   switch (action.type) {
+    case 'SET_DONATION':
+      const total = Number(state.totalPot) + Number(action.payload);
+      return {
+        ...state, 
+        totalPot: total,
+        playerPot: total / 5,
+      }
     case 'UPDATE_SELECTION':
       return {
         ...state,
@@ -28,6 +35,11 @@ export default function reducer (state = initialState, action) {
         ...state,
         gameStart: (action.payload ? ++state.gameStart : --state.gameStart) % 7,
         selection: -1
+      }
+    case 'GAME_END':
+      return {
+        ...state,
+        gameStart: 6,
       }
     default:
       return state
