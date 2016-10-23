@@ -4,7 +4,7 @@ const initialState = {
   playerPot: 0,
   giftUrlLink: '',
   selection: -1,
-  amazon_card: "1234-1342-1432-1324",
+  amazon_card: '1234-1342-1432-1324'
 }
 
 export default function reducer (state = initialState, action) {
@@ -22,7 +22,7 @@ export default function reducer (state = initialState, action) {
       }
     case 'UPDATE_SELECTION':
       return {
-        ...state, 
+        ...state,
         selection: action.payload
       }
     case 'UPDATE_GIFT_URL':

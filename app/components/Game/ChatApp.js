@@ -1,14 +1,37 @@
 import React from 'react'
-import socket from '../../socket'
+
+import io from 'socket.io-client'
+let socket = io(`http://localhost:3000`)
 
 import UsersList from './UsersList'
 import MessageList from './MessageList'
 import MessageForm from './MessageForm'
+import KillForm from './KillForm'
+import {
+  Button,
+  Panel,
+  ListGroup,
+  Col,
+  Image,
+  Row,
+  ListGroupItem,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  Jumbotron
+} from 'react-bootstrap';
 
 class ChatApp extends React.Component {
   constructor (props) {
     super(props)
     this.state = {users: [], messages: [], text: ''}
+    this._initialize = this._initialize.bind(this)
+    this._messageRecieve = this._messageRecieve.bind(this)
+    this._userJoined = this._userJoined.bind(this)
+    this._userLeft = this._userLeft.bind(this)
+    this._lynchLocked = this._lynchLocked.bind(this)
+    this.handleMessageSubmit = this.handleMessageSubmit.bind(this)
+    this.handleKill = this.handleKill.bind(this)
   }
 
   componentDidMount () {
@@ -17,10 +40,12 @@ class ChatApp extends React.Component {
     socket.on('user:join', this._userJoined)
     socket.on('user:left', this._userLeft)
     socket.on('change:name', this._userChangedName)
+    socket.on('game:lynchlocked', this._lynchLocked)
   }
 
   _initialize (data) {
     var {users, name} = data
+    users.map(user=>({name: user}))
     this.setState({users, user: name})
   }
 
@@ -53,14 +78,15 @@ class ChatApp extends React.Component {
     this.setState({users, messages})
   }
 
-  _userChangedName (data) {
-    var {oldName, newName} = data
+  _lynchLocked (data) {
     var {users, messages} = this.state
-    var index = users.indexOf(oldName)
-    users.splice(index, 1, newName)
-    messages.push({
-      user: 'APPLICATION BOT',
-      text: 'Change Name : ' + oldName + ' ==> ' + newName
+    var {user, selection} = data
+    messages.push({user: 'APPLICATION BOT', text: `${user} selected ${selection} to lynch`})
+    users.map(user => {
+      if (user.name === user) {
+        user.selection = selection
+      }
+      return user
     })
     this.setState({users, messages})
   }
@@ -72,32 +98,40 @@ class ChatApp extends React.Component {
     socket.emit('send:message', message)
   }
 
-  handleChangeName (newName) {
-    var oldName = this.state.user
-    socket.emit('change:name', { name: newName}, (result) => {
-      if (!result) {
-        return alert('There was an error changing your name')
-      }
-      var {users} = this.state
-      var index = users.indexOf(oldName)
-      users.splice(index, 1, newName)
-      this.setState({users, user: newName})
-    })
+  handleKill (message) {
+    var {messages} = this.state
+    messages.push({user: 'APPLICATION BOT', text: `You selected ${message.selection} to lynch`})
+    this.setState({messages})
+    socket.emit('game:lynchlocked', message)
   }
 
   render () {
     return (
       <div>
-        <UsersList
-          users={this.state.users}
-              />
-        <MessageList
-          messages={this.state.messages}
-              />
-        <MessageForm
-          onMessageSubmit={this.handleMessageSubmit}
-          user={this.state.user}
-              />
+        <Col md={2} />
+        <Col md={6}>
+          <Row>
+                <MessageList
+                  messages={this.state.messages}
+                      />
+                <MessageForm
+                  onMessageSubmit={this.handleMessageSubmit}
+                  user={this.state.user}
+                      />
+          </Row>
+        </Col>
+        <Col md={4}>
+          <Row>
+                <UsersList
+                  users={this.state.users}
+                      />
+                <KillForm
+                  onMessageSubmit={this.handleKill}
+                  user={this.state.user}
+                      />
+          </Row>
+        </Col>
+        <Col md={2} />
       </div>
       )
   }

@@ -10,7 +10,7 @@ import Profile from './components/Account/Profile'
 import Forgot from './components/Account/Forgot'
 import Reset from './components/Account/Reset'
 import ChatApp from './components/Game/ChatApp'
-import game2 from './components/gamestart';
+import game2 from './components/gamestart'
 
 export default function getRoutes (store) {
   const ensureAuthenticated = (nextState, replace) => {

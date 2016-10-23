@@ -13,9 +13,10 @@ import {
   ControlLabel,
   FormControl,
   Jumbotron
-} from 'react-bootstrap';
+} from 'react-bootstrap'
 
 import { browserHistory } from 'react-router'
+
 
 const player1Name = 'Claire';
 const player1Image = '/images/chinese-woman-player.png';
@@ -38,7 +39,7 @@ const ThreeHalfShitHackIdontWannaTalkAbout = (props) => (
       </Col>
     </Row>
   </Col>
-);
+)
 
 class Home extends React.Component {
   constructor(props) {
@@ -50,25 +51,27 @@ class Home extends React.Component {
     this.setDonateAmount = this.setDonateAmount.bind(this);
   }
 
-  updateSelection(i) {
+  updateSelection (i) {
     this.props.dispatch({type: 'UPDATE_SELECTION', payload: i})
   }
+
   setDonateAmount(e) {
     this.props.dispatch({type: 'SET_DONATION', payload: e.target.value})
   }
+
   updateGiftUrl(e) {
     this.props.dispatch({type: 'UPDATE_GIFT_URL', payload: e.target.value})
   }
 
-  nextScreen() {
+  nextScreen () {
     this.props.dispatch({type: 'GAME_START', payload: true})
   }
 
-  prevScreen() {
+  prevScreen () {
     this.props.dispatch({type: 'GAME_START', payload: false})
   }
 
-  render7() {
+  render7 () {
     return (
       <div className='container-fluid'>
       <Row>
@@ -109,10 +112,10 @@ class Home extends React.Component {
        </Panel>
        </Row>
       </div>
-    );
+    )
   }
 
-  render6() {
+  render6 () {
     return (
       <div>
         <div className='container-fluid' onClick={this.nextScreen} >
@@ -126,26 +129,26 @@ class Home extends React.Component {
               </h1>
 
               <Row>
-              <Col mdOffset={2} md={3}>
-                <Panel>
-                  <ListGroup fill>
-                    <ListGroupItem>
-                      <Image responsive src={player3Image} />
-                    </ListGroupItem>
-                    <ListGroupItem className='face_name'>{player3Name}</ListGroupItem>
-                  </ListGroup>
-                </Panel>
-              </Col>
-              <Col mdOffset={2} md={3}>
-                <Panel>
-                  <ListGroup fill>
-                    <ListGroupItem>
-                      <Image responsive src={player5Image} />
-                    </ListGroupItem>
-                    <ListGroupItem className='face_name'>{player5Name}</ListGroupItem>
-                  </ListGroup>
-                </Panel>
-              </Col>
+                <Col mdOffset={2} md={3}>
+                  <Panel>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player3Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player3Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </Col>
+                <Col mdOffset={2} md={3}>
+                  <Panel>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player5Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player5Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </Col>
               </Row>
             </ListGroup>
           </Panel>
@@ -157,49 +160,49 @@ class Home extends React.Component {
               </h1>
 
               <Row>
-              <Col mdOffset={2} md={2}>
-                <Panel>
-                  <ListGroup fill>
-                    <ListGroupItem>
-                      <Image responsive src={player1Image} />
-                    </ListGroupItem>
-                    <ListGroupItem className='face_name'>{player1Name}</ListGroupItem>
-                  </ListGroup>
-                </Panel>
-              </Col>
-               <Col mdOffset={1} md={2}>
-                <Panel>
-                  <ListGroup fill>
-                    <ListGroupItem>
-                      <Image responsive src={player2Image} />
-                    </ListGroupItem>
-                    <ListGroupItem className='face_name'>{player2Name}</ListGroupItem>
-                  </ListGroup>
-                </Panel>
-              </Col>
-              <Col mdOffset={1} md={2}>
-                <Panel>
-                  <ListGroup fill>
-                    <ListGroupItem>
-                      <Image responsive src={player4Image} />
-                    </ListGroupItem>
-                    <ListGroupItem className='face_name'>{player4Name}</ListGroupItem>
-                  </ListGroup>
-                </Panel>
-              </Col>
+                <Col mdOffset={2} md={2}>
+                  <Panel>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player1Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player1Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </Col>
+                <Col mdOffset={1} md={2}>
+                  <Panel>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player2Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player2Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </Col>
+                <Col mdOffset={1} md={2}>
+                  <Panel>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player4Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player4Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </Col>
               </Row>
             </ListGroup>
           </Panel>
         </div>
       </div>
-    );
+    )
   }
 
-  render5() {
+  render5 () {
     return (
       <div>
         <div className='container-fluid'>
-           <Jumbotron className='face_name'>
+          <Jumbotron className='face_name'>
             <h1>Day 1</h1>
           </Jumbotron>
           <Panel>
@@ -214,65 +217,65 @@ class Home extends React.Component {
 
               <Row>
 
-              <ThreeHalfShitHackIdontWannaTalkAbout>
-                <Panel onClick={this.updateSelection.bind(this, 1)} className={this.props.selection == 1 ? 'glow' : ''}>
-                  <ListGroup fill>
-                    <ListGroupItem>
-                      <Image responsive src={player1Image} />
-                    </ListGroupItem>
-                    <ListGroupItem className='face_name'>{player1Name}</ListGroupItem>
-                  </ListGroup>
-                </Panel>
-              </ThreeHalfShitHackIdontWannaTalkAbout>
-              <ThreeHalfShitHackIdontWannaTalkAbout>
-                <Panel onClick={this.updateSelection.bind(this, 2)} className={this.props.selection == 2 ? 'glow' : ''}>
-                  <ListGroup fill>
-                    <ListGroupItem>
-                      <Image responsive src={player2Image} />
-                    </ListGroupItem>
-                    <ListGroupItem className='face_name'>{player2Name}</ListGroupItem>
-                  </ListGroup>
-                </Panel>
-              </ThreeHalfShitHackIdontWannaTalkAbout>
-              <ThreeHalfShitHackIdontWannaTalkAbout>
-                <Panel onClick={this.updateSelection.bind(this, 3)} className={this.props.selection == 3 ? 'glow' : ''}>
-                  <ListGroup fill>
-                    <ListGroupItem>
-                      <Image responsive src={player3Image} />
-                    </ListGroupItem>
-                    <ListGroupItem className='face_name'>{player3Name}</ListGroupItem>
-                  </ListGroup>
-                </Panel>
-              </ThreeHalfShitHackIdontWannaTalkAbout>
-              <ThreeHalfShitHackIdontWannaTalkAbout>
-                <Panel onClick={this.updateSelection.bind(this, 4)} className={this.props.selection == 4 ? 'glow' : ''}>
-                  <ListGroup fill>
-                    <ListGroupItem>
-                      <Image responsive src={player4Image} />
-                    </ListGroupItem>
-                    <ListGroupItem className='face_name'>{player4Name}</ListGroupItem>
-                  </ListGroup>
-                </Panel>
-              </ThreeHalfShitHackIdontWannaTalkAbout>
+                <ThreeHalfShitHackIdontWannaTalkAbout>
+                  <Panel onClick={this.updateSelection.bind(this, 1)} className={this.props.selection == 1 ? 'glow' : ''}>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player1Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player1Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </ThreeHalfShitHackIdontWannaTalkAbout>
+                <ThreeHalfShitHackIdontWannaTalkAbout>
+                  <Panel onClick={this.updateSelection.bind(this, 2)} className={this.props.selection == 2 ? 'glow' : ''}>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player2Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player2Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </ThreeHalfShitHackIdontWannaTalkAbout>
+                <ThreeHalfShitHackIdontWannaTalkAbout>
+                  <Panel onClick={this.updateSelection.bind(this, 3)} className={this.props.selection == 3 ? 'glow' : ''}>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player3Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player3Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </ThreeHalfShitHackIdontWannaTalkAbout>
+                <ThreeHalfShitHackIdontWannaTalkAbout>
+                  <Panel onClick={this.updateSelection.bind(this, 4)} className={this.props.selection == 4 ? 'glow' : ''}>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player4Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player4Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </ThreeHalfShitHackIdontWannaTalkAbout>
               </Row>
             </ListGroup>
 
             <Col mdOffset={4} md={4} className='face_name'>
-                <Button bsStyle='success' style={{width: '80%'}} onClick={this.nextScreen} >
+              <Button bsStyle='success' style={{width: '80%'}} onClick={this.nextScreen} >
               Vote to lynch
-                </Button>
+              </Button>
             </Col>
           </Panel>
         </div>
       </div>
-    );
+    )
   }
 
-  render4() {
+  render4 () {
     return (
       <div>
         <div className='container-fluid'>
-           <Jumbotron className='face_name'>
+          <Jumbotron className='face_name'>
             <h1>Night 1</h1>
           </Jumbotron>
           <Panel>
@@ -286,51 +289,51 @@ class Home extends React.Component {
               </h1>
 
               <Row>
-              <Col mdOffset={1} md={2}>
-                <Panel onClick={this.updateSelection.bind(this, 1)} className={this.props.selection == 1 ? 'glow' : ''}>
-                  <ListGroup fill>
-                    <ListGroupItem>
-                      <Image responsive src={player1Image} />
-                    </ListGroupItem>
-                    <ListGroupItem className='face_name'>{player1Name}</ListGroupItem>
-                  </ListGroup>
-                </Panel>
-              </Col>
-              <Col mdOffset={2} md={2}>
-                <Panel onClick={this.updateSelection.bind(this, 2)} className={this.props.selection == 2 ? 'glow' : ''}>
-                  <ListGroup fill>
-                    <ListGroupItem>
-                      <Image responsive src={player2Image} />
-                    </ListGroupItem>
-                    <ListGroupItem className='face_name'>{player2Name}</ListGroupItem>
-                  </ListGroup>
-                </Panel>
-              </Col>
-              <Col mdOffset={2} md={2}>
-                <Panel onClick={this.updateSelection.bind(this, 3)} className={this.props.selection == 3 ? 'glow' : ''}>
-                  <ListGroup fill>
-                    <ListGroupItem>
-                      <Image responsive src={player4Image} />
-                    </ListGroupItem>
-                    <ListGroupItem className='face_name'>{player4Name}</ListGroupItem>
-                  </ListGroup>
-                </Panel>
-              </Col>
+                <Col mdOffset={1} md={2}>
+                  <Panel onClick={this.updateSelection.bind(this, 1)} className={this.props.selection == 1 ? 'glow' : ''}>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player1Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player1Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </Col>
+                <Col mdOffset={2} md={2}>
+                  <Panel onClick={this.updateSelection.bind(this, 2)} className={this.props.selection == 2 ? 'glow' : ''}>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player2Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player2Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </Col>
+                <Col mdOffset={2} md={2}>
+                  <Panel onClick={this.updateSelection.bind(this, 3)} className={this.props.selection == 3 ? 'glow' : ''}>
+                    <ListGroup fill>
+                      <ListGroupItem>
+                        <Image responsive src={player4Image} />
+                      </ListGroupItem>
+                      <ListGroupItem className='face_name'>{player4Name}</ListGroupItem>
+                    </ListGroup>
+                  </Panel>
+                </Col>
               </Row>
             </ListGroup>
 
             <Col mdOffset={4} md={4} className='face_name'>
-                <Button bsStyle='success' style={{width: '80%'}} onClick={this.nextScreen} >
+              <Button bsStyle='success' style={{width: '80%'}} onClick={this.nextScreen} >
               Vote to assasinate
-                </Button>
+              </Button>
             </Col>
           </Panel>
         </div>
       </div>
-    );
+    )
   }
 
-  render3() { // press anywhere to go next screens
+  render3 () { // press anywhere to go next screens
     return (
       <div>
         <div className='container-fluid' onClick={this.nextScreen}>
@@ -366,10 +369,10 @@ class Home extends React.Component {
           </Panel>
         </div>
       </div>
-    );
+    )
   }
 
-  render2() {
+  render2 () {
     return (
       <div className='container-fluid'>
         <Row>
@@ -391,37 +394,35 @@ class Home extends React.Component {
                   </ListGroup>
                 </Panel>
               </Col>
-              <Col md={2} className='face_name'>
-               
-              </Col>
+              <Col md={2} className='face_name' />
             </Row>
-             <Panel>
+            <Panel>
               <FormGroup>
                 <Col md={12}>
                 <ControlLabel>Put your Amazen item link here</ControlLabel>
                 </Col>
                 <Col md={9}>
-                <FormControl
-                  type="text"
-                  value={this.props.giftUrlLink}
-                  placeholder="Enter text"
-                  onChange={this.updateGiftUrl}
+                  <FormControl
+                    type='text'
+                    value={this.props.giftUrlLink}
+                    placeholder='Enter text'
+                    onChange={this.updateGiftUrl}
                 />
                 </Col>
                 <Col md={3}>
-                <Button bsStyle='success' style={{width: '100%'}} onClick={this.nextScreen}>
+                  <Button bsStyle='success' style={{width: '100%'}} onClick={this.nextScreen}>
                   Ok
-                </Button>
+                  </Button>
                 </Col>
               </FormGroup>
-             </Panel>
+            </Panel>
           </Col>
         </Row>
       </div>
-    );
+    )
   }
 
-  render1() {
+  render1 () {
     return (
       <div className='container-fluid'>
         <Row>
@@ -491,12 +492,12 @@ class Home extends React.Component {
           </Col>
         </Row>
       </div>
-    ); 
+    )
   }
   render () {
-    const s = [this.render1, this.render2, this.render3, this.render4, this.render5, this.render6, this.render7];
+    const s = [this.render1, this.render2, this.render3, this.render4, this.render5, this.render6, this.render7]
 
-    return s[this.props.gameStart].call(this);
+    return s[this.props.gameStart].call(this)
   }
 }
 
@@ -508,7 +509,7 @@ const mapStateToProps = (state) => {
     playerPot: state.home.playerPot,
     giftUrlLink: state.home.giftUrlLink,
     selection: state.home.selection,
-    amazon_card: state.home.amazon_card,
+    amazon_card: state.home.amazon_card
   }
 }
 

@@ -17,8 +17,8 @@ var moment = require('moment')
 var request = require('request')
 var sass = require('node-sass-middleware')
 var webpack = require('webpack')
-var config = require('./webpack.config')
-
+var config = require('./webpack.config')  
+// var server = http.createServer(app)
 // Load environment variables from .env file
 dotenv.load()
 
@@ -156,8 +156,119 @@ if (app.get('env') === 'production') {
   })
 }
 
-app.listen(app.get('port'), function () {
+var server = app.listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'))
+})
+
+var io = require('socket.io')(server)
+
+var userNames = (function () {
+  var names = {}
+
+  var claim = function (name) {
+    if (!name || names[name]) {
+      return false
+    } else {
+      names[name] = true
+      return true
+    }
+  }
+
+  // find the lowest unused "guest" name and claim it
+  var getGuestName = function () {
+    var guestNames = ["Dummy", "Monty", "Claire", "Hardy", "Carlos", "Tom"]
+    var name
+    var nextUserId = 0
+
+    do {
+      name = guestNames[nextUserId]
+      nextUserId += 1
+    } while (!claim(name))
+
+    return name
+  }
+
+  // serialize claimed names as an array
+  var get = function () {
+    var res = []
+    for (var user in names) {
+      res.push(user)
+    }
+
+    return res
+  }
+
+  var free = function (name) {
+    if (names[name]) {
+      delete names[name]
+    }
+  }
+
+  return {
+    claim: claim,
+    free: free,
+    get: get,
+    getGuestName: getGuestName
+  }
+}())
+
+io.on('connection', function (socket) {
+  console.log('a user connected')
+  var name = userNames.getGuestName()
+
+  // send the new user their name and a list of users
+  socket.emit('init', {
+    name: name,
+    users: userNames.get().splice(1)
+  })
+
+  // notify other clients that a new user has joined
+  socket.broadcast.emit('user:join', {
+    name: name
+  })
+
+  // broadcast a user's message to other users
+  socket.on('send:message', function (data) {
+    socket.broadcast.emit('send:message', {
+      user: name,
+      text: data.text
+    })
+  })
+
+  // validate a user's name change, and broadcast it on success
+  socket.on('change:name', function (data, fn) {
+    if (userNames.claim(data.name)) {
+      var oldName = name
+      userNames.free(oldName)
+
+      name = data.name
+
+      socket.broadcast.emit('change:name', {
+        oldName: oldName,
+        newName: name
+      })
+
+      fn(true)
+    } else {
+      fn(false)
+    }
+  })
+
+  // lock a selection
+  socket.on('game:lynchlocked', function (data) {
+    socket.broadcast.emit('game:lynchlocked', {
+      user: name,
+      selection: data.selection
+    })
+  })
+
+  // clean up when a user leaves, and broadcast it to other users
+  socket.on('disconnect', function () {
+    socket.broadcast.emit('user:left', {
+      name: name
+    })
+    userNames.free(name)
+  })
 })
 
 module.exports = app

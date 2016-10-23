@@ -4,13 +4,13 @@ class UsersList extends React.Component {
   render () {
     return (
       <div className='users'>
-        <h3> Online Users </h3>
+        <h3> Players </h3>
         <ul>
           {
             this.props.users.map((user, i) => {
               return (
                 <li key={i}>
-                  {user}
+                  {user.name}{user.selection ? <span> picked <strong>user.selection</strong></span> : ''}
                 </li>
                 )
             })
