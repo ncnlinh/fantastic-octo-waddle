@@ -95,14 +95,6 @@ app.use(function (req, res, next) {
   }
 })
 
-if (app.get('env') === 'development') {
-  app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true,
-    publicPath: config.output.publicPath
-  }))
-  app.use(require('webpack-hot-middleware')(compiler))
-}
-
 app.get('/ping', function (req, res, next) {
   res.send('pong')
 })
@@ -122,8 +114,12 @@ app.get('/auth/google/callback', userController.authGoogleCallback)
 app.post('/auth/twitter', userController.authTwitter)
 app.get('/auth/twitter/callback', userController.authTwitterCallback)
 
-app.post('/modo/account/create', modoController.accountCreate)
-
+app.post('/modo/people/create', modoController.peopleRegister)
+app.post('/modo/card/create', modoController.cardCreate)
+app.post('/modo/fund/create', modoController.fundCreate)
+app.post('/modo/fund/deposit', modoController.fundDeposit)
+app.post('/modo/vault/get_type_list', modoController.vaultGetTypeList)
+app.post('/modo/vault/fetch', modoController.vaultFetch)
 // React server rendering
 app.use(function (req, res) {
   var initialState = {
