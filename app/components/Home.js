@@ -86,7 +86,7 @@ class Home extends React.Component {
           "accountId": "45448d71-0ba8-4023-99ce-bb4e249c98ab"
         }
       })}).then((res) => {
-        fetch('/modo/card/create', {
+        fetch('/modo/fund/deposit', {
         method: 'POST',
         contentType: 'application/json',
         body: {
