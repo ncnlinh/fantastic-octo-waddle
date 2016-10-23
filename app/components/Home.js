@@ -49,6 +49,7 @@ class Home extends React.Component {
     this.updateGiftUrl = this.updateGiftUrl.bind(this);
     this.updateSelection = this.updateSelection.bind(this);
     this.setDonateAmount = this.setDonateAmount.bind(this);
+    this.transitToChat = this.transitToChat.bind(this);
   }
 
   updateSelection (i) {
@@ -69,6 +70,10 @@ class Home extends React.Component {
 
   prevScreen () {
     this.props.dispatch({type: 'GAME_START', payload: false})
+  }
+
+  transitToChat() {
+    browserHistory.push('/game');
   }
 
   render7 () {
@@ -336,7 +341,7 @@ class Home extends React.Component {
   render3 () { // press anywhere to go next screens
     return (
       <div>
-        <div className='container-fluid' onClick={this.nextScreen}>
+        <div className='container-fluid' onClick={this.transitToChat}>
           <Jumbotron className='face_name'>
             <h1>Game Start</h1>
           </Jumbotron>
