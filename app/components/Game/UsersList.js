@@ -10,7 +10,8 @@ class UsersList extends React.Component {
             this.props.users.map((user, i) => {
               return (
                 <li key={i}>
-                  {user.name}{user.selection ? <span> picked <strong>user.selection</strong></span> : ''}
+                  {user.name}{user.selection ? <span> picked <strong>{user.selection}</strong></span> : ''}
+                  {user.status ? <span><strong> {user.status}</strong></span> : ''}
                 </li>
                 )
             })
